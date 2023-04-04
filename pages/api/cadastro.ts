@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { respostaPadraoMsg } from '../../types/respostaPadraoMsg'
 import type { cadastroRequisicao } from '../../types/cadastroRequisicao'
+import { usuarioModel } from '../../models/usuarioModel'
 
-const endpointCadastro = (req : NextApiRequest, res: NextApiResponse<respostaPadraoMsg>) => {
+const endpointCadastro = async (req : NextApiRequest, res: NextApiResponse<respostaPadraoMsg>) => {
   
   if (req.method === 'POST') {
     const usuario = req.body as cadastroRequisicao //HACK: Dessa forma não preciso fazer o destruction.
@@ -26,7 +27,9 @@ const endpointCadastro = (req : NextApiRequest, res: NextApiResponse<respostaPad
       return res.status(400).json({ erro: 'Senha inválida.' })
     }
 
-    return res.status(200).json({ msg : 'Dados corretos.'  })
+    await usuarioModel.create(usuario)
+
+    return res.status(200).json({ msg : 'Usuário criado com sucesso.'  })
 
   }
   return res.status(405).json({ erro: 'Método informado não é válido.' })
