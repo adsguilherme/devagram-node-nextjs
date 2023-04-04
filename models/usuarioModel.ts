@@ -13,5 +13,5 @@ const usuarioSchema = new Schema({
 })
 
 // mongoose.models.usuarios:  é para validar se o model/tabela usuários já existe.
-// mongoose.model('usuarios', usuarioSchema): irá criar a tablea usuarios caso ela não exista.
+// mongoose.model('usuarios', usuarioSchema): irá criar a tabela usuarios caso ela não exista.
 export const usuarioModel = (mongoose.models.usuarios || mongoose.model('usuarios', usuarioSchema))

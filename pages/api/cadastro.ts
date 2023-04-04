@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import type { respostaPadraoMsg } from '../../types/respostaPadraoMsg'
 import type { cadastroRequisicao } from '../../types/cadastroRequisicao'
 import { usuarioModel } from '../../models/usuarioModel'
+import { conectarMongoDB } from '../../middlewares/conectarMongoDB'
+import md5 from 'md5'
 
 const endpointCadastro = async (req : NextApiRequest, res: NextApiResponse<respostaPadraoMsg>) => {
   
@@ -27,12 +29,29 @@ const endpointCadastro = async (req : NextApiRequest, res: NextApiResponse<respo
       return res.status(400).json({ erro: 'Senha inválida.' })
     }
 
-    await usuarioModel.create(usuario)
+    // Validação se já existe usuário com o mesmo email
+    const usuarioMesmoEmail = await usuarioModel.find({ email : usuario.email })
 
-    return res.status(200).json({ msg : 'Usuário criado com sucesso.'  })
+    if (usuarioMesmoEmail && usuarioMesmoEmail.length > 0) {
+      return res.status(400).json({ erro: 'Já existe uma conta o email informado.' })
+    }
+
+    // Salvar no banco de dados
+
+    const usuarioSerSalvo = {
+      nome : usuario.nome,    
+      email : usuario.email,    
+      senha : md5(usuario.senha),    
+    }
+
+    await usuarioModel.create(usuarioSerSalvo)
+    return res.status(200).json({ msg : 'Usuário criado com sucesso.' })
 
   }
   return res.status(405).json({ erro: 'Método informado não é válido.' })
 }
 
-export default endpointCadastro // Sem o export teremos erro com status code 500
+// Sem o export teremos erro com status code 500.
+// Reforçando a questão para que serve o middleware, ele conecta no banco de dados antes de fazer a request, que neste caso é o cadastro de usuário.
+// Sem o middleware, irá ocorrer um erro de status code 500 no server (error - MongooseError: Operation `usuarios.insertOne()` buffering timed out after 10000ms)
+export default conectarMongoDB(endpointCadastro) 
