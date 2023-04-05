@@ -22,6 +22,6 @@ export const conectarMongoDB = (handler: NextApiHandler) =>
     mongoose.connection.on('connected', () => console.log('Banco de dados conectado.'))
     mongoose.connection.on('error', error => console.log('Ocorreu um erro ao conectar no banco de dado.'))
     await mongoose.connect(DB_CONEXAO_STRING)
-    // Agora posso segior para o endpoint, pois estou conectado no banco de dados.
+    // Agora posso seguir para o endpoint, pois estou conectado no banco de dados.
     return handler(req, res)
 }
