@@ -2,9 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { validarTokenJWT } from '../../middlewares/validarTokenJWT'
 import { conectarMongoDB } from '../../middlewares/conectarMongoDB'
 import type { respostaPadraoMsg } from '../../types/respostaPadraoMsg'
-import { usuarioModel } from '@/models/usuarioModel'
-import { publicacaoModel } from '@/models/publicacaoModel'
-import publicacao from './publicacao'
+import { usuarioModel } from '../../models/usuarioModel'
+import { publicacaoModel } from '../../models/publicacaoModel'
 
 const feedEndpoint = async (req : NextApiRequest, res : NextApiResponse<respostaPadraoMsg> | any) => {
   try {
