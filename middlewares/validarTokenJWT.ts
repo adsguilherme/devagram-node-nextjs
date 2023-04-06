@@ -27,7 +27,7 @@ export const validarTokenJWT = ( handler : NextApiHandler ) =>
         return res.status(401).json({ erro: 'Não foi possível validar o token de acesso.' })
       }
       
-       // Validando se veio o token
+      // Validando se veio o token
       const token = authorization.substring(7) // Nessa parte .substring(7) está eliminando a palabra Bearear e o espaço. Retornando apenas o JWT.
       if (!token) {
         return res.status(401).json({ erro: 'Não foi possível validar o token de acesso.' })
@@ -53,5 +53,4 @@ export const validarTokenJWT = ( handler : NextApiHandler ) =>
     }
 
     return handler(req, res)
-
 }
