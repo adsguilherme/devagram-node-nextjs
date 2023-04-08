@@ -25,25 +25,25 @@ const handler = nc()
       
       const { descricao }  = req.body
 
-    if (!descricao || descricao.length < 2) {
-      return res.status(400).json({ erro : 'Descrição não é válida' })
-    }
-    
-    if (!req.file || !req.file.originalname ) {
-      return res.status(400).json({ erro : 'Imagem é obrigatória.' })
-    }
+      if (!descricao || descricao.length < 2) {
+        return res.status(400).json({ erro : 'Descrição não é válida' })
+      }
+      
+      if (!req.file || !req.file.originalname ) {
+        return res.status(400).json({ erro : 'Imagem é obrigatória.' })
+      }
 
-    const image = await uploadImagemCosmic(req)
-    const publicacao = {
-      idUsuario : usuario._id,
-      descricao,
-      foto : image.media.url,
-      data : new Date()
-    }
+      const image = await uploadImagemCosmic(req)
+      const publicacao = {
+        idUsuario : usuario._id,
+        descricao,
+        foto : image.media.url,
+        data : new Date()
+      }
 
-    await publicacaoModel.create(publicacao)
-    
-    return res.status(200).json({ msg : 'Publicação criada com sucesso.' })
+      await publicacaoModel.create(publicacao)
+      
+      return res.status(200).json({ msg : 'Publicação criada com sucesso.' })
     } catch (erro) {
       console.log(erro)
       return res.status(400).json({ erro : 'Erro ao cadastrar publicação.' })

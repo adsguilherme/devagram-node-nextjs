@@ -8,7 +8,7 @@ const {
   BUCKET_AVATARES,
   BUCKET_PUBLICACOES } = process.env
 
-// Instãncia do Cosmic
+// Instância do Cosmic
 const Cosmic = cosmicjs()
 
 const bucketAvatares = Cosmic.bucket({
@@ -27,6 +27,14 @@ const upload = multer({ storage : storage })
 const uploadImagemCosmic = async(req : any) => {
   // Se na requisição chegou um arquivo e se esse arquivo tem um nome
   if(req?.file?.originalname) {
+
+    if (!req.file.originalname.includes('.png') &&
+        !req.file.originalname.includes('.jpg') && 
+        !req.file.originalname.includes('.jpeg')) {
+          throw new Error('Extensão da imagem inválida.')
+        }
+    }
+
     const media_object = {
       originalname: req.file.originalname,
       buffer: req.file.buffer
@@ -38,6 +46,5 @@ const uploadImagemCosmic = async(req : any) => {
       return await bucketAvatares.addMedia({ media : media_object }) 
     }
   }
-}
 
 export { upload, uploadImagemCosmic }
