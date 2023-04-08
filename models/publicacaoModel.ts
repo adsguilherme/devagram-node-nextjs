@@ -9,4 +9,6 @@ const publicacaoSchema = new Schema({
   likes : { type : Array, required : true, default : [] }
 })
 
+// mongoose.models.publicacoes:  é para validar se o model/tabela publicacoes já existe.
+// mongoose.model('publicacoes', publicacaoSchema): irá criar a tabela publicacoes caso ela não exista.
 export const publicacaoModel = (mongoose.models.publicacoes || mongoose.model('publicacoes', publicacaoSchema))

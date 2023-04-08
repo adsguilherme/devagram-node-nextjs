@@ -33,13 +33,13 @@ const likeEndpoint = async (req : NextApiRequest, res: NextApiResponse<respostaP
         
         // Se o index for -1 significa que não curtiu a foto
         if (indexDoUsuarioNoLike != -1) {
-          publicacao.likes.splice(indexDoUsuarioNoLike) // é um método do array para remover alguma posição do array.
+          publicacao.likes.splice(indexDoUsuarioNoLike) // splice é um método do array para remover alguma posição do array.
           await publicacaoModel.findByIdAndUpdate({ _id : publicacao._id }, publicacao )
           return res.status(200).json({ msg : 'Publicação descurtida com sucesso.' })
 
         // Se o index for > -1 significa que curtiu a foto
         }else{
-          publicacao.likes.push(usuario._id)
+          publicacao.likes.push(usuario._id) // push é um método do array para adicionar um item no final da lista do array.
           await publicacaoModel.findByIdAndUpdate({ _id : publicacao._id }, publicacao )
           return res.status(200).json({ msg : 'Publicação curtida com sucesso.' })
         }
