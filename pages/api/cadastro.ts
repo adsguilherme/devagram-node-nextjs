@@ -9,7 +9,7 @@ import nc from 'next-connect'
 
 const handler = nc()
   .use(upload.single('file'))
-  .post(async (req : NextApiRequest, res: NextApiResponse<respostaPadraoMsg>) => {
+  .post(async (req : NextApiRequest, res : NextApiResponse<respostaPadraoMsg>) => {
   
       const usuario = req.body as cadastroRequisicao //HACK: Dessa forma não preciso fazer o destruction.
       
@@ -40,11 +40,9 @@ const handler = nc()
       }
       
       // Enviar a imagem do multer para o cosmic
-
       const image = await uploadImagemCosmic(req)
 
       // Salvar no banco de dados
-  
       const usuarioSerSalvo = {
         nome : usuario.nome,    
         email : usuario.email,    
