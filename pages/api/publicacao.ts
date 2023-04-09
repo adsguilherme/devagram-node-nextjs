@@ -41,6 +41,10 @@ const handler = nc()
         data : new Date()
       }
 
+      // Implementado contador
+      usuario.publicacao++
+      await usuarioModel.findByIdAndUpdate({ _id : usuario._id }, usuario)
+
       await publicacaoModel.create(publicacao)
       
       return res.status(200).json({ msg : 'Publicação criada com sucesso.' })
