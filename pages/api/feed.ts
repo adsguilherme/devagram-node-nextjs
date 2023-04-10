@@ -5,6 +5,7 @@ import type { respostaPadraoMsg } from '../../types/respostaPadraoMsg'
 import { usuarioModel } from '../../models/usuarioModel'
 import { publicacaoModel } from '../../models/publicacaoModel'
 import { seguidorModel } from '../../models/seguidorModel'
+import { politicaCORS } from '../../middlewares/politicaCORS'
 
 const feedEndpoint = async (req : NextApiRequest, res : NextApiResponse<respostaPadraoMsg> | any) => {
   try {
@@ -68,4 +69,4 @@ const feedEndpoint = async (req : NextApiRequest, res : NextApiResponse<resposta
     return res.status(400).json({ erro : 'Não foi possível obter o feed.'})
 }
 
-export default validarTokenJWT(conectarMongoDB(feedEndpoint))
+export default politicaCORS(validarTokenJWT(conectarMongoDB(feedEndpoint)))

@@ -7,6 +7,7 @@ import type { respostaPadraoMsg } from '../../types/respostaPadraoMsg'
 import { usuarioModel } from '../../models/usuarioModel'
 import nc from 'next-connect'
 import { upload, uploadImagemCosmic } from '../../services/uploadImagemCosmic'
+import { politicaCORS } from '../../middlewares/politicaCORS'
 
 const handler = nc() // Instanciando o endpoint
   .use(upload.single('file')) // O endpoint vai usar um middleare (.use tem uma conotação de middleware), e que irá aceitar uma única imagem que veio no atributo do multipart/form-data file.  
@@ -76,4 +77,4 @@ const handler = nc() // Instanciando o endpoint
 
 // Irá validar antes de chamar o endpoint
 // 1º valida o token e se este estiver valido verifica se o banco está conectado e por fim chama a API. 
-export default validarTokenJWT(conectarMongoDB(handler))
+export default politicaCORS(validarTokenJWT(conectarMongoDB(handler)))

@@ -6,6 +6,7 @@ import { conectarMongoDB } from '../../middlewares/conectarMongoDB'
 import md5 from 'md5'
 import { upload, uploadImagemCosmic } from '../../services/uploadImagemCosmic'
 import nc from 'next-connect'
+import { politicaCORS } from '../../middlewares/politicaCORS'
 
 const handler = nc()
   .use(upload.single('file'))
@@ -65,4 +66,4 @@ const handler = nc()
 // Sem o export teremos erro com status code 500.
 // Reforçando a questão para que serve o middleware, ele conecta no banco de dados antes de fazer a request, que neste caso é o cadastro de usuário.
 // Sem o middleware, irá ocorrer um erro de status code 500 no server (error - MongooseError: Operation `usuarios.insertOne()` buffering timed out after 10000ms)
-export default conectarMongoDB(handler) 
+export default politicaCORS(conectarMongoDB(handler)) 

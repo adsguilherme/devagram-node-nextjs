@@ -4,6 +4,7 @@ import { validarTokenJWT } from '../../middlewares/validarTokenJWT'
 import { conectarMongoDB } from '../../middlewares/conectarMongoDB'
 import { usuarioModel } from '../../models/usuarioModel'
 import { seguidorModel } from '../../models/seguidorModel'
+import { politicaCORS } from '../../middlewares/politicaCORS'
 
 // Como devemos implementar o nosso seguir ?
 // O seguir poderia ser um array ? Resposta: Não, iremos criar um novo model (tabela).
@@ -73,4 +74,4 @@ const seguirEndpoint = async ( req : NextApiRequest, res : NextApiResponse<respo
   }
 }
 
-export default validarTokenJWT(conectarMongoDB(seguirEndpoint))
+export default politicaCORS(validarTokenJWT(conectarMongoDB(seguirEndpoint)))
